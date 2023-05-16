@@ -1,6 +1,5 @@
 import csv
 import os
-import datetime
 
 columnas = ("TITULO", "AUTOR", "GENERO", "AÑO DE PUBLICACION", "FECHA DE ADQUISICIÓN", "CANTIDAD", "ISBN")
 libros = []
@@ -71,6 +70,7 @@ CSV_A_Lista()
 while True:
     menu()
     op = input("¿Qué opción deseas?: ")
+    
     if op == "1":
         respuesta = 1
         while respuesta == 1:
@@ -87,52 +87,49 @@ while True:
             registro.append(GENERO)
             registro.append(AÑO_DE_PUBLICACION)
             registro.append(FECHADEADQUISICION)
+            registro.append(CANTIDAD)
+            registro.append(ISBN)
+            libros.append(tuple(registro))
+            respuesta = int(input("\n¿Deseas capturar otro registro? \n (1.SI - 0.NO): "))
+            
+        Lista_A_CSV()
 
-registro.append(CANTIDAD)
-registro.append(ISBN)
-libros.append(tuple(registro))
-respuesta = int(input("\n¿Deseas capturar otro registro? \n (1.SI - 0.NO): "))
+    elif op == "2":
+        registrar_autor()
+    elif op == "3":
+        registrar_genero()
+    elif op == "4":
+        isbn_buscar = input("\nIngresa el ISBN del libro que deseas consultar: ")
+        libro = consulta_libro(isbn_buscar)
 
-Lista_A_CSV()
-elif op == "2":
-registrar_autor()
-elif op == "3":
-registrar_genero()
-elif op == "4":
-isbn_buscar = input("\nIngresa el ISBN del libro que deseas consultar: ")
-libro = consulta_libro(isbn_buscar)
+        if libro:
+            print("\nLibro encontrado:")
+            print("Título:", libro[0])
+            print("Autor:", libro[1])
+            print("Género:", libro[2])
+            print("Año de Publicación:", libro[3])
+            print("Fecha de Adquisición:", libro[4])
+            print("Cantidad:", libro[5])
+            print("ISBN:", libro[6])
+        else:
+            print("\nNo se encontró un libro con ese ISBN.")
 
-if libro:
+    elif op == "5":
+        año_consulta = input("\nIngresa el año para generar el reporte: ")
+        reporte = reporte_por_año(año_consulta)
+        if reporte:
+            print("\nReporte de libros publicados en el año", año_consulta)
+            for libro in reporte:
+                print("\nTítulo:", libro[0])
+                print("Autor:", libro[1])
+                print("Género:", libro[2])
+                print("Año de Publicación:", libro[3])
+                print("Fecha de Adquisición:", libro[4])
+                print("Cantidad:", libro[5])
+                print("ISBN:", libro[6])
+        else:
+            print("\nNo se encontraron libros publicados en el año", año_consulta)
 
-print("\nLibro encontrado:")
-print("Título:", libro[0])
-print("Autor:", libro[1])
-print("Género:", libro[2])
-print("Año de Publicación:", libro[3])
-print("Fecha de Adquisición:", libro[4])
-print("Cantidad:", libro[5])
-print("ISBN:", libro[6])
-else:
-
-print("\nNo se encontró un libro con ese ISBN.")
-elif op == "5":
-año_consulta = input("\nIngresa el año para generar el reporte: ")
-reporte = reporte_por_año(año_consulta)
-if reporte:
-
-print("\nReporte de libros publicados en el año", año_consulta)
-for libro in reporte:
-print("\nTítulo:", libro[0])
-print("Autor:", libro[1])
-print("Género:", libro[2])
-print("Año de Publicación:", libro[3])
-print("Fecha de Adquisición:", libro[4])
-print("Cantidad:", libro[5])
-print("ISBN:", libro[6])
-
-else:
-print("\nNo se encontraron libros publicados en el año", año_consulta)
-elif op == "6":
-print("\n¡Hasta luego!")
-
-break
+    elif op == "6":
+        print("\n¡Hasta luego!")
+        break
